@@ -22,7 +22,7 @@ namespace NSE.Auth.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(UserRegisterRequest request)
+        public async Task<IActionResult> RegisterAsync([FromBody] UserRegisterRequest request)
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
@@ -41,7 +41,7 @@ namespace NSE.Auth.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync(UserLoginRequest request)
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginRequest request)
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
