@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NSE.Auth.API.Controllers.Base;
 using NSE.Auth.API.Requests;
 using System.Threading.Tasks;
 
 namespace NSE.Auth.API.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiController
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _sigInManager;
@@ -34,10 +34,10 @@ namespace NSE.Auth.API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
-                return Ok();
+            if (!result.Succeeded)
+                return ApiResponse(result.Errors);
 
-            return BadRequest(result.Errors);
+            return ApiResponse();
         }
 
         [HttpPost("login")]
@@ -47,9 +47,9 @@ namespace NSE.Auth.API.Controllers
 
             var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
             if (result.Succeeded)
-                return Ok();
+                AddError("Invalid credentials");
 
-            return BadRequest("Invalid credentials");
+            return ApiResponse();
         }
     }
 }
