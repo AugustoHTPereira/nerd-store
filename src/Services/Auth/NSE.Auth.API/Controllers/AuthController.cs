@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Auth.API.Controllers.Base;
 using NSE.Auth.API.Requests;
+using System;
 using System.Threading.Tasks;
 
 namespace NSE.Auth.API.Controllers
@@ -26,18 +27,26 @@ namespace NSE.Auth.API.Controllers
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
-            var user = new IdentityUser
+            try
             {
-                UserName = request.Email,
-                Email = request.Email,
-                EmailConfirmed = true
-            };
+                var user = new IdentityUser
+                {
+                    UserName = request.Email,
+                    Email = request.Email,
+                    EmailConfirmed = true
+                };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
-            if (!result.Succeeded)
-                return ApiResponse(result.Errors);
+                var result = await _userManager.CreateAsync(user, request.Password);
+                if (!result.Succeeded)
+                    return ApiResponse(result.Errors);
 
-            return ApiResponse();
+                return ApiResponse();
+            }
+            catch (Exception ex)
+            {
+                AddError("Crash", ex.Message);
+                return ApiResponse();
+            }
         }
 
         [HttpPost("login")]
@@ -45,11 +54,19 @@ namespace NSE.Auth.API.Controllers
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
-            var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
-            if (result.Succeeded)
-                AddError("Invalid credentials");
+            try
+            {
+                var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
+                if (!result.Succeeded)
+                    AddError("User", "Invalid credentials");
 
-            return ApiResponse();
+                return ApiResponse();
+            }
+            catch (Exception ex)
+            {
+                AddError("Crash", ex.Message);
+                return ApiResponse();
+            }
         }
     }
 }
