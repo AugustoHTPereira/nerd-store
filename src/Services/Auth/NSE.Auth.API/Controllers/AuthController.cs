@@ -58,7 +58,10 @@ namespace NSE.Auth.API.Controllers
             {
                 var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
                 if (!result.Succeeded)
+                {
                     AddError("User", "Invalid credentials");
+                    return ApiResponse();
+                }
 
                 return ApiResponse();
             }
