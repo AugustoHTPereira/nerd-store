@@ -1,6 +1,8 @@
-﻿<ul class="navbar-nav">
+﻿@inject IUser User
 
-    @if (!Context.User.Identity.IsAuthenticated)
+<ul class="navbar-nav">
+
+    @if (!User.IsAuthenticated)
     {
 
 <li class="nav-item">
@@ -8,19 +10,17 @@
 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="Register" asp-controller="Identity">Register</a>
-                </li>
- }
-            else
-            {
+                </li> }
+                            else
+                            {
 
-<li class="nav-item">
-    <a class="nav-link" asp-action="Index" asp-controller="Home">
-        Hello @(Context.User.Identity.Name ?? "user")
-    </a>
-</li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="Logout" asp-controller="Identity">Logout</a>
+                    <a class="nav-link" asp-action="Index" asp-controller="Home">
+                        Hello @(User.Name)
+                    </a>
                 </li>
-}
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Logout" asp-controller="Identity">Logout</a>
+                                </li>}
 
 </ul>

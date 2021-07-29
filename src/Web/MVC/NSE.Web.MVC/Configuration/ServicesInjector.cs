@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSE.Web.MVC.Configuration.Sections;
+using NSE.Web.MVC.Extensions;
 using NSE.Web.MVC.Services;
 using System;
 
@@ -18,6 +20,9 @@ namespace NSE.Web.MVC.Configuration
             {
                 x.BaseAddress = new Uri(apiSection.BaseAddress);
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, IdentityUser>();
         }
     }
 }

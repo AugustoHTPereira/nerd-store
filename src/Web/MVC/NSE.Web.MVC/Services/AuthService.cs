@@ -37,6 +37,7 @@ namespace NSE.Web.MVC.Services
             var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(responseContent.Data.AccessToken);
             var claims = new List<Claim>();
             claims.Add(new Claim("JWT/Bearer", responseContent.Data.AccessToken));
+            claims.Add(new Claim("Refresh/Bearer", responseContent.Data.RefreshToken.Value));
             claims.Add(new Claim(ClaimTypes.Name, responseContent.Data.User.Email));
             claims.AddRange(securityToken.Claims);
 

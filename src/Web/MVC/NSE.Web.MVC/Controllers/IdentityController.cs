@@ -53,7 +53,10 @@ namespace NSE.Web.MVC.Controllers
             if (!ModelState.IsValid) return View(request);
             var response = await AuthService.LoginAsync(HttpContext, request);
             if (!response.IsValid)
+            {
+                response.Errors.ToList().ForEach(x => ModelState.AddModelError(x.Key, x.Value));
                 return View(request);
+            }
 
             return RedirectToAction("Index", "Home");
         }

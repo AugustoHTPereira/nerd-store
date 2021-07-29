@@ -13,7 +13,7 @@ namespace NSE.Web.MVC.Models.Base
         public bool IsValid { get; set; }
 
         [JsonPropertyName("errors")]
-        public object Errors { get; set; }
+        public ErrorModelResponse[] Errors { get; set; }
 
         [JsonPropertyName("data")]
         public virtual object Data { get; set; }
@@ -28,5 +28,14 @@ namespace NSE.Web.MVC.Models.Base
 
         [JsonPropertyName("data")]
         public new TData Data { get; set; }
+    }
+
+    public class ErrorModelResponse
+    {
+        [JsonPropertyName("key")]
+        public string Key { get; set; }
+
+        [JsonPropertyName("value")]
+        public string Value { get; set; }
     }
 }
