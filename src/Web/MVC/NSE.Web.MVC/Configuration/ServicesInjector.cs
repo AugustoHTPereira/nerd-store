@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSE.Web.MVC.Configuration.Sections;
 using NSE.Web.MVC.Extensions;
+using NSE.Web.MVC.Extensions.Middlewares;
 using NSE.Web.MVC.Services;
 using System;
 
@@ -23,6 +25,11 @@ namespace NSE.Web.MVC.Configuration
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, IdentityUser>();
+        }
+
+        public static void AddExceptionMiddlewares(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionMiddleware>();
         }
     }
 }

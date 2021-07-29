@@ -25,20 +25,17 @@ namespace NSE.Web.MVC
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
+            app.AddExceptionMiddlewares();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseIdentity();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

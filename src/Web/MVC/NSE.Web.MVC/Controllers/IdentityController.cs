@@ -50,6 +50,8 @@ namespace NSE.Web.MVC.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginViewModel request)
         {
+            throw new Exception("Teste");
+
             if (!ModelState.IsValid) return View(request);
             var response = await AuthService.LoginAsync(HttpContext, request);
             if (!response.IsValid)
