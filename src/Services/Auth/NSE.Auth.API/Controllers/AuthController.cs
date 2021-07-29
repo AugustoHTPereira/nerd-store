@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NSE.Auth.API.Configuration.Jwt;
 using NSE.Auth.API.Controllers.Base;
 using NSE.Auth.API.Requests;
 using System;
@@ -12,14 +13,17 @@ namespace NSE.Auth.API.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _sigInManager;
+        private readonly IJwtService _jwtService;
 
         public AuthController(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> sigInManager
+            SignInManager<IdentityUser> sigInManager,
+            IJwtService jwtService
         )
         {
             _userManager = userManager;
             _sigInManager = sigInManager;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -63,7 +67,25 @@ namespace NSE.Auth.API.Controllers
                     return ApiResponse();
                 }
 
-                return ApiResponse();
+                var user = await _userManager.FindByEmailAsync(request.Email);
+                string token = _jwtService.GenerateJsonWebToken(user);
+
+                return ApiResponse("Success", new
+                {
+                    token,
+                    user = new
+                    {
+                        user.Id,
+                        user.UserName,
+                        user.Email,
+                        user.PhoneNumber,
+                    },
+                    refreshToken = new
+                    {
+                        token = Guid.NewGuid(),
+                        expiress = DateTime.Now.AddDays(7)
+                    }
+                });
             }
             catch (Exception ex)
             {

@@ -32,6 +32,8 @@ namespace NSE.Auth.API.Configuration.Jwt
                     ValidateLifetime = true,
                 };
             });
+
+            services.AddScoped<IJwtService, JwtService>();
         }
     }
 }
