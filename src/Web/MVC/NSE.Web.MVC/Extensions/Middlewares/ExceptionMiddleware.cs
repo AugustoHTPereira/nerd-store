@@ -24,7 +24,13 @@ namespace NSE.Web.MVC.Extensions.Middlewares
             }
             catch (HttpRequestException ex)
             {
-                context.Response.Redirect("/Error/" + (int)ex.StatusCode);
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    context.Response.Redirect($"/login?returnTo={context.Request.Path}");
+                    return;
+                }
+
+                context.Response.Redirect($"/Error/{(int)ex.StatusCode}");
             }
             catch (Exception)
             {

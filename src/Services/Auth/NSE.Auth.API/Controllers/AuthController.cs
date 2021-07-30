@@ -58,40 +58,32 @@ namespace NSE.Auth.API.Controllers
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
-            try
+            var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
+            if (!result.Succeeded)
             {
-                var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
-                if (!result.Succeeded)
-                {
-                    AddError("User", "Invalid credentials");
-                    return ApiResponse();
-                }
-
-                var user = await _userManager.FindByEmailAsync(request.Email);
-                string token = _jwtService.GenerateJsonWebToken(user);
-
-                return ApiResponse("Success", new
-                {
-                    token,
-                    user = new
-                    {
-                        user.Id,
-                        user.UserName,
-                        user.Email,
-                        user.PhoneNumber,
-                    },
-                    refreshToken = new
-                    {
-                        token = Guid.NewGuid(),
-                        expiress = DateTime.Now.AddDays(7)
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                AddError("Crash", ex.Message);
+                AddError("User", "Invalid credentials");
                 return ApiResponse();
             }
+
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            string token = _jwtService.GenerateJsonWebToken(user);
+
+            return ApiResponse("Success", new
+            {
+                token,
+                user = new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.PhoneNumber,
+                },
+                refreshToken = new
+                {
+                    token = Guid.NewGuid(),
+                    expiress = DateTime.Now.AddDays(7)
+                }
+            });
         }
     }
 }

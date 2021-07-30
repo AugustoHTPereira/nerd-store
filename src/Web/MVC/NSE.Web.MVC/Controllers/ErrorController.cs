@@ -11,17 +11,37 @@ namespace NSE.Web.MVC.Controllers
     public class ErrorController : Controller
     {
         [HttpGet]
-        [Route("{code:int}")]
-        public IActionResult Index([FromRoute] int code)
+        [Route("{code}")]
+        public IActionResult Index([FromRoute] string code, [FromQuery] string exception)
         {
-            if (code == 500)
-                return View("InternalServerError", new ErrorViewModel
-                {
-                    RequestId = Guid.NewGuid().ToString(),
-                    Message = "Failure"
-                });
+            var error = new ErrorViewModel
+            {
+                Message = exception,
+                Code = int.Parse(code),
+            };
 
-            return View();
+            switch (code)
+            {
+                case "500":
+                    return View("InternalServerError", error);
+
+                case "404":
+                    return View("NotFound", error);
+
+                case "403":
+                    return View("Forbid", error);
+
+                case "401":
+                    return View("Unauthorized", error);
+
+                case "400":
+                    return View("BadRequest", error);
+
+                default:
+                    break;
+            }
+
+            return View(error);
         }
     }
 }

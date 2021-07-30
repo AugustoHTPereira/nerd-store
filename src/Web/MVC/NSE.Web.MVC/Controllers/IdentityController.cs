@@ -41,24 +41,27 @@ namespace NSE.Web.MVC.Controllers
 
         [HttpGet]
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnTo = null)
         {
+            ViewData["returnTo"] = returnTo;
             return View();
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginViewModel request)
+        public async Task<IActionResult> Login(LoginViewModel request, string returnTo = null)
         {
-            throw new Exception("Teste");
-
             if (!ModelState.IsValid) return View(request);
+
             var response = await AuthService.LoginAsync(HttpContext, request);
             if (!response.IsValid)
             {
                 response.Errors.ToList().ForEach(x => ModelState.AddModelError(x.Key, x.Value));
                 return View(request);
             }
+
+            if (!string.IsNullOrEmpty(returnTo))
+                return LocalRedirect(returnTo);
 
             return RedirectToAction("Index", "Home");
         }

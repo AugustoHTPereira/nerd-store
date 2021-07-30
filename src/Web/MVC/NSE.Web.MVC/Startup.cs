@@ -27,6 +27,7 @@ namespace NSE.Web.MVC
         {
             if (!env.IsDevelopment())
             {
+                app.UseExceptionHandler("/Error/500");
                 app.UseHsts();
             }
 
