@@ -45,7 +45,7 @@ namespace NSE.Auth.API.Controllers.Base
 
         protected IActionResult ApiResponse(IEnumerable<IdentityError> errors)
         {
-            errors.ToList().ForEach(x => AddError("Identity", x.Description));
+            errors.ToList().ForEach(x => AddError(x.Code.StartsWith("Password") ? "Password" : "Identity", x.Description));
             return BadRequest(CreateResponse());
         }
 

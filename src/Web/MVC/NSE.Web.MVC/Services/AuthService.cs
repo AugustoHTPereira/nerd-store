@@ -55,7 +55,7 @@ namespace NSE.Web.MVC.Services
 
         public async Task<APIResponseBase> RegisterAsync(RegisterViewModel request)
         {
-            return await HandleHttpResponseAsync<LoginModelResponse>(await Client.PostAsJsonAsync("/api/auth/register", request));
+            return await HandleHttpResponseAsync(await Client.PostAsJsonAsync("/api/auth/register", request));
         }
     }
 }

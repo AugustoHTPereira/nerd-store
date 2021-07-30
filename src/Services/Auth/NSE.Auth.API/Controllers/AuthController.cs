@@ -31,26 +31,18 @@ namespace NSE.Auth.API.Controllers
         {
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
-            try
+            var user = new IdentityUser
             {
-                var user = new IdentityUser
-                {
-                    UserName = request.Email,
-                    Email = request.Email,
-                    EmailConfirmed = true
-                };
+                UserName = request.Email,
+                Email = request.Email,
+                EmailConfirmed = true
+            };
 
-                var result = await _userManager.CreateAsync(user, request.Password);
-                if (!result.Succeeded)
-                    return ApiResponse(result.Errors);
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (!result.Succeeded)
+                return ApiResponse(result.Errors);
 
-                return ApiResponse();
-            }
-            catch (Exception ex)
-            {
-                AddError("Crash", ex.Message);
-                return ApiResponse();
-            }
+            return ApiResponse();
         }
 
         [HttpPost("login")]
