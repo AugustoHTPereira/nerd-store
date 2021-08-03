@@ -18,16 +18,14 @@ namespace NSE.Web.MVC.Configuration
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             var apiSection = configuration.GetSection("API").Get<APISection>();
-            services.AddHttpClient<IAuthService, AuthService>(x =>
-            {
-                x.BaseAddress = new Uri(apiSection.BaseAddress);
-            });
+            services.AddSingleton(apiSection);
 
+            services.AddHttpClient<IAuthService, AuthService>(x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, IdentityUser>();
         }
 
-        public static void AddExceptionMiddlewares(this IApplicationBuilder app)
+        public static void UseExceptionMiddleware(this IApplicationBuilder app)
         {
             app.UseMiddleware<ExceptionMiddleware>();
         }

@@ -9,9 +9,15 @@ namespace NSE.Web.MVC
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostEnvironment hostEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,7 +37,7 @@ namespace NSE.Web.MVC
                 app.UseHsts();
             }
 
-            app.AddExceptionMiddlewares();
+            app.UseExceptionMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
