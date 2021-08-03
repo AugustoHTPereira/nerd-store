@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Catalog.API.Extensions;
+using NSE.Core.Services.Identity;
 
 namespace NSE.Catalog.API
 {
@@ -29,6 +30,7 @@ namespace NSE.Catalog.API
             services.AddSwaggerDocs();
             services.AddApiCors();
             services.AddCatalogServices();
+            services.AddAuthSupport(Configuration.GetSection("JwtOptions").Get<TokenOptions>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,7 +44,7 @@ namespace NSE.Catalog.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseApiCors();
-            app.UseAuthorization();
+            app.UseAuthSupport();
 
             app.UseEndpoints(endpoints =>
             {

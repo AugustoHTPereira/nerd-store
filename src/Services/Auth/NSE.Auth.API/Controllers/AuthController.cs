@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Auth.API.Configuration.Jwt;
@@ -76,6 +77,13 @@ namespace NSE.Auth.API.Controllers
                     expiress = DateTime.Now.AddDays(7)
                 }
             });
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult GetInfo()
+        {
+            return Ok(UserId);
         }
     }
 }

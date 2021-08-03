@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using TokenOptions = NSE.Core.Services.Identity.TokenOptions;
 
 namespace NSE.Auth.API.Configuration.Jwt
 {
     public class JwtService : IJwtService
     {
-        private readonly JwtOptions Options;
+        private readonly TokenOptions Options;
 
-        public JwtService(JwtOptions options)
+        public JwtService(TokenOptions options)
         {
             Options = options;
         }
@@ -26,8 +26,6 @@ namespace NSE.Auth.API.Configuration.Jwt
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             claims.Add(new Claim(ClaimTypes.Expiration, expirationDate.ToString()));
-
-            var identity = new ClaimsIdentity(claims);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Options.Key);
@@ -42,7 +40,9 @@ namespace NSE.Auth.API.Configuration.Jwt
                     new Claim(ClaimTypes.Expiration, expirationDate.ToString()),
                 }),
                 Expires = expirationDate,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = Options.Issuer,
+                Audience = Options.Audience
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

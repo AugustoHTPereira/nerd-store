@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using NSE.Auth.API.Configuration.EntityFramework;
 using NSE.Auth.API.Configuration.Identity;
 using NSE.Auth.API.Configuration.Jwt;
+using NSE.Core.Services.Identity;
 
 namespace NSE.Auth.API
 {
@@ -30,7 +31,7 @@ namespace NSE.Auth.API
         {
             services.AddEntityFramework(Configuration.GetConnectionString("DefaultConnection"));
             services.AddIdentity();
-            services.AddJwt(Configuration.GetSection("JwtOptions").Get<JwtOptions>());
+            services.AddJwt(Configuration.GetSection("JwtOptions").Get<TokenOptions>());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,11 +56,8 @@ namespace NSE.Auth.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthSupport();
 
             app.UseEndpoints(endpoints =>
             {

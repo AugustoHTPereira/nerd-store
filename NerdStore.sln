@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{502E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Catalog.API", "src\Services\Catalog\NSE.Catalog.API\NSE.Catalog.API.csproj", "{D31033C8-8D24-4DCF-9FB8-C8EFD0C7CE5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Core.Services", "src\Building Blocks\NSE.Core.Services\NSE.Core.Services.csproj", "{1A1B71C2-38A0-43AE-8FC4-02A47396688C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{D31033C8-8D24-4DCF-9FB8-C8EFD0C7CE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D31033C8-8D24-4DCF-9FB8-C8EFD0C7CE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D31033C8-8D24-4DCF-9FB8-C8EFD0C7CE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A1B71C2-38A0-43AE-8FC4-02A47396688C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A1B71C2-38A0-43AE-8FC4-02A47396688C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A1B71C2-38A0-43AE-8FC4-02A47396688C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A1B71C2-38A0-43AE-8FC4-02A47396688C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{79EE5395-D8D8-4311-B472-5A7D17658DFD} = {42CBF048-9A2D-43E2-8D90-17B334302C44}
 		{502ED96E-EF51-4FFB-8242-A906BEB96488} = {041C9F7D-350B-4B44-8542-96A8BC4C8968}
 		{D31033C8-8D24-4DCF-9FB8-C8EFD0C7CE5E} = {502ED96E-EF51-4FFB-8242-A906BEB96488}
+		{1A1B71C2-38A0-43AE-8FC4-02A47396688C} = {46597A33-D653-4864-A6D9-C957B511C4AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44475722-2E21-4693-AB93-3D7113636183}
