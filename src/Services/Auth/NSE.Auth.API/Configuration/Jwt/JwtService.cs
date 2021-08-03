@@ -29,6 +29,7 @@ namespace NSE.Auth.API.Configuration.Jwt
             token.RefreshToken = Guid.NewGuid().ToString("N");
             token.Claims.Add(new Claim(ClaimTypes.Email, user.Email));
             token.Claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            token.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             token.Claims.Add(new Claim(ClaimTypes.Expiration, token.Expiress.ToString()));
 
             foreach (var claim in await UserManager.GetClaimsAsync(user))

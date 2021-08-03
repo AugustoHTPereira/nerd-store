@@ -20,7 +20,9 @@ namespace NSE.Core.Services.Identity
     {
         public ClaimAuthorizeAttribute(string claimType, string claimValue)
             : base(typeof(ClaimAuthorizationFilter))
-        { }
+        {
+            Arguments = new object[] { new Claim(claimType, claimValue) };
+        }
     }
 
     public class ClaimAuthorizationFilter : IAuthorizationFilter

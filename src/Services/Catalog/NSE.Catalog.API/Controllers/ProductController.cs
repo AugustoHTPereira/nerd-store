@@ -24,7 +24,7 @@ namespace NSE.Catalog.API.Controllers
             return Ok(await ProductRepository.SelectAsync());
         }
 
-        [ClaimAuthorize("Catalog", "Read")]
+        [ClaimAuthorize("catalog", "read")]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
