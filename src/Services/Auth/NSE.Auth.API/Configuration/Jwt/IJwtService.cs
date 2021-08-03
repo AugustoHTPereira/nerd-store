@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using NSE.Auth.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace NSE.Auth.API.Configuration.Jwt
 {
     public interface IJwtService
     {
-        string GenerateJsonWebToken(IdentityUser user);
+        Task<Token> GenerateJsonWebTokenAsync(IdentityUser user);
     }
 }

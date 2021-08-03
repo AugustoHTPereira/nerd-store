@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Catalog.API.Models;
+using NSE.Core.Services.Identity;
 using System;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace NSE.Catalog.API.Controllers
             return Ok(await ProductRepository.SelectAsync());
         }
 
-        [Authorize]
+        [ClaimAuthorize("Catalog", "Read")]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {

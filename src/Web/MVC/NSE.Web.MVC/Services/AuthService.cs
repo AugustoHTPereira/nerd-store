@@ -29,12 +29,15 @@ namespace NSE.Web.MVC.Services
             if (!response.IsValid)
                 return response;
 
-            var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(response.Data.AccessToken);
+            var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(response.Data.Token.Bearer);
             var claims = new List<Claim>();
-            claims.Add(new Claim("JWT/Bearer", response.Data.AccessToken));
-            claims.Add(new Claim("Refresh/Bearer", response.Data.RefreshToken.Value));
-            claims.Add(new Claim(ClaimTypes.Name, response.Data.User.Email));
+            claims.Add(new Claim("JWT/Bearer", response.Data.Token.Bearer));
+            claims.Add(new Claim("Refresh/Bearer", response.Data.Token.RefreshToken));
             claims.AddRange(securityToken.Claims);
+
+            foreach (var claim in response.Data.Token.Claims)
+                if (!claims.Any(x => x.Type == claim.Type))
+                    claims.Add(new Claim(claim.Type, claim.Value));
 
             var authProperties = new AuthenticationProperties
             {
@@ -43,7 +46,6 @@ namespace NSE.Web.MVC.Services
             };
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)), authProperties);
-
             return response;
         }
 

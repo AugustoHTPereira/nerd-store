@@ -5,6 +5,7 @@ using NSE.Auth.API.Configuration.Jwt;
 using NSE.Auth.API.Controllers.Base;
 using NSE.Auth.API.Requests;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NSE.Auth.API.Controllers
@@ -59,22 +60,16 @@ namespace NSE.Auth.API.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
-            string token = _jwtService.GenerateJsonWebToken(user);
+            var token = await _jwtService.GenerateJsonWebTokenAsync(user);
 
             return ApiResponse("Success", new
             {
-                token,
-                user = new
+                token = new
                 {
-                    user.Id,
-                    user.UserName,
-                    user.Email,
-                    user.PhoneNumber,
-                },
-                refreshToken = new
-                {
-                    token = Guid.NewGuid(),
-                    expiress = DateTime.Now.AddDays(7)
+                    bearer = token.Bearer,
+                    refreshToken = token.RefreshToken,
+                    expiress = token.Expiress,
+                    claims = token.Claims.Select(x => new { x.Type, x.Value })
                 }
             });
         }
