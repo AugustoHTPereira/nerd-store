@@ -4,39 +4,44 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
-
-<h4>RegisterViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PasswordConfirmation" class="control-label"></label>
-                <input asp-for="PasswordConfirmation" class="form-control" type="password" />
-                <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Next" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div style="position: absolute; top: 0; left:0;right:0;background-color: #434343; height: 30vh; z-index: -1;">
 </div>
 
-<div>
-    <a asp-action="Login">Login</a>
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div style="background-color: white; padding: 50px; border-radius: 12px; box-shadow: 4px 0 125px rgba(0, 0, 0, .12)">
+            <div>
+                <h1>Register</h1>
+                <form asp-action="Register">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PasswordConfirmation" class="control-label"></label>
+                        <input asp-for="PasswordConfirmation" class="form-control" type="password" />
+                        <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Next" class="btn btn-dark btn-block btn-lg" />
+                    </div>
+                </form>
+
+                <div>
+                    Already have an account?
+                    <a asp-action="Login">Login now!</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

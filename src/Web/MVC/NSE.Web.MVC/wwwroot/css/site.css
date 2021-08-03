@@ -93,3 +93,12 @@ body {
             .validation-summary-errors ul li + li {
                 border-top: 1px solid var(--danger);
             }
+
+
+.btn-primary {
+    background-color: #3a5595;
+}
+
+.btn-dark {
+    background-color: #434343;
+}

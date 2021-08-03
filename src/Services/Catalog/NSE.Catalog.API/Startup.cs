@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using NSE.Auth.API.Configuration.EntityFramework;
-using NSE.Auth.API.Configuration.Identity;
-using NSE.Auth.API.Configuration.Jwt;
+using NSE.Catalog.API.Extensions;
 
-namespace NSE.Auth.API
+namespace NSE.Catalog.API
 {
     public class Startup
     {
@@ -28,21 +24,11 @@ namespace NSE.Auth.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFramework(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddIdentity();
-            services.AddJwt(Configuration.GetSection("JwtOptions").Get<JwtOptions>());
-
+            services.AddCatalogContext(Configuration.GetConnectionString("DefaultConnection"));
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Nerd Store Identity",
-                    Version = "v1",
-                    Description = "Authentication Store API",
-                    Contact = new OpenApiContact { Email = "augustohtp8@gmail.com", Name = "Augusto Pereira" }
-                });
-            });
+            services.AddSwaggerDocs();
+            services.AddApiCors();
+            services.AddCatalogServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,15 +36,12 @@ namespace NSE.Auth.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSE.Auth.API v1"));
+                app.UseSwaggerDocs();
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthentication();
+            app.UseApiCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -17,10 +17,13 @@ namespace NSE.Web.MVC.Configuration
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            var apiSection = configuration.GetSection("API").Get<APISection>();
-            services.AddSingleton(apiSection);
+            #region HttpClient for services
 
+            var apiSection = configuration.GetSection("API").Get<APISection>();
             services.AddHttpClient<IAuthService, AuthService>(x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
+
+            #endregion
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, IdentityUser>();
         }
