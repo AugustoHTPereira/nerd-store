@@ -18,16 +18,16 @@ namespace NSE.Web.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await CatalogService.SelectProductsAsync();
-            return View(products.ToArray());
+            var response = await CatalogService.GetProductsAsync();
+            return View(response.Data.ToArray());
         }
 
         [HttpGet]
         [Route("products/{id:Guid}")]
         public async Task<IActionResult> Detail(Guid id)
         {
-            var product = await CatalogService.SelectProductAsync(id);
-            return View(product);
+            var response = await CatalogService.GetProductAsync(id);
+            return View(response.Data);
         }
     }
 }

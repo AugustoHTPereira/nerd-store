@@ -24,8 +24,16 @@ namespace NSE.Web.MVC.Configuration
 
             var apiSection = configuration.GetSection("API").Get<APISection>();
             services.AddHttpClient<IAuthService, AuthService>("AuthService", x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
-            services.AddHttpClient<ICatalogService, CatalogService>("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
-                .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>();
+            //services.AddHttpClient<ICatalogService, CatalogService>("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
+            //    .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>();
+
+            #endregion
+
+            #region Refit services
+
+            services.AddHttpClient("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
+                .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>()
+                .AddTypedClient(Refit.RestService.For<ICatalogService>);
 
             #endregion
 

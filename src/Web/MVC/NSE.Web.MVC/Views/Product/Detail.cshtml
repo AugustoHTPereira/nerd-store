@@ -1,109 +1,109 @@
 ﻿@model ProductViewModel
 
-    @{
-        ViewBag.Title = Model.Name.ToString();
+@{
+    ViewBag.Title = Model.Name.ToString();
+}
+
+<style>
+    .product {
+        width: 100%;
+        min-height: 420px;
+        position: relative;
+        border-radius: 22px;
+        overflow: hidden;
+        margin-top: 45px;
     }
 
-    <style>
-        .product {
-            width: 100%;
-            min-height: 320px;
-            position: relative;
-            border-radius: 22px;
-            overflow: hidden;
-            margin-top: 45px;
-        }
-
-            .product img {
-                position: absolute;
-                left: 0;
-                object-fit: cover;
-                min-height: 320px;
-                width: 100%;
-                height: 100%;
-            }
-
-            .product .text-content {
-                position: relative;
-                padding: 65px;
-            }
-
-            .product h1 {
-                color: white;
-                text-shadow: 0 4px 42px black;
-                font-weight: bold;
-            }
-
-        .attributes {
-            color: #434343;
-            list-style: none;
-            padding: 0;
-            margin-top: 45px;
-        }
-
-            .attributes h3 {
-                color: #3a5595;
-                font-weight: bold;
-                font-size: 2rem;
-            }
-
-            .attributes p.date {
-                color: darkgray;
-                font-size: .8rem;
-            }
-
-        .price {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .absolute-detail {
+        .product img {
             position: absolute;
-            top: 0;
             left: 0;
-            width: 100vw;
-            height: 30vh;
-            background-color: lightgray;
-            z-index: -1;
+            object-fit: cover;
+            min-height: 320px;
+            width: 100%;
+            height: 100%;
         }
-    </style>
 
-    <div class="absolute-detail"></div>
+        .product .text-content {
+            position: relative;
+            padding: 65px;
+        }
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="product">
-                <img src="@Model.PictureUrl" alt="Picture @Model.Name" />
-                <div class="text-content">
-                    <h1>@Model.Name</h1>
+        .product h1 {
+            color: white;
+            text-shadow: 0 4px 42px black;
+            font-weight: bold;
+        }
+
+    .attributes {
+        color: #434343;
+        list-style: none;
+        padding: 0;
+        margin-top: 45px;
+    }
+
+        .attributes h3 {
+            color: #3a5595;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        .attributes p.date {
+            color: darkgray;
+            font-size: .8rem;
+        }
+
+    .price {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .absolute-detail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 30vh;
+        background-color: lightgray;
+        z-index: -1;
+    }
+</style>
+
+<div class="absolute-detail"></div>
+
+<div class="product">
+    <img src="@Model.PictureUrl" alt="Picture @Model.Name" />
+    <div class="text-content">
+        <h1>@Model.Name</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="offset-6 col-md-6">
+        <div class="attributes">
+            <div class="price">
+                <h3>@Model.Price.ToString("C")</h3>
+            </div>
+
+            <div class="row my-4">
+                <div class="col-md-8">
+                    <select class="form-control form-control-lg">
+                        <option value="01">01 unidade</option>
+                        <option value="02">02 unidades</option>
+                        <option value="03">03 unidades</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-block btn-lg">COMPRAR</button>
                 </div>
             </div>
 
-            <div class="attributes">
-                <div class="price">
-                    <h3>@Model.Price.ToString("C")</h3>
-                </div>
+            <div>
+                <p>@Model.Description</p>
+            </div>
 
-                <div class="row my-4">
-                    <div class="col-md-8">
-                        <select class="form-control form-control-lg">
-                            <option value="01">01 unidade</option>
-                            <option value="02">02 unidades</option>
-                            <option value="03">03 unidades</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary btn-block btn-lg">COMPRAR</button>
-                    </div>
-                </div>
-
-                <div>
-                    <p>@Model.Description</p>
-                </div>
-
-                <div>
-                    <p class="date">Criado em @Model.CreatedAt.ToString("dddd dd 'de' MMM 'de' yyyy")</p>
-                </div>
+            <div class="text-right">
+                <p class="date">Criado em @Model.CreatedAt.ToString("dddd dd 'de' MMM 'de' yyyy")</p>
             </div>
         </div>
     </div>
+</div>
