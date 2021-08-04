@@ -6,6 +6,7 @@ using NSE.Web.MVC.Configuration.Sections;
 using NSE.Web.MVC.Extensions;
 using NSE.Web.MVC.Extensions.Middlewares;
 using NSE.Web.MVC.Services;
+using NSE.Web.MVC.Services.Handlers;
 using System;
 
 namespace NSE.Web.MVC.Configuration
@@ -19,9 +20,12 @@ namespace NSE.Web.MVC.Configuration
 
             #region HttpClient for services
 
+            services.AddTransient<HttpAuthorizeDelegatingHandler>();
+
             var apiSection = configuration.GetSection("API").Get<APISection>();
-            services.AddHttpClient<IAuthService, AuthService>(x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
-            services.AddHttpClient<ICatalogService, CatalogService>(x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress));
+            services.AddHttpClient<IAuthService, AuthService>("AuthService", x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
+            services.AddHttpClient<ICatalogService, CatalogService>("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
+                .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>();
 
             #endregion
 
