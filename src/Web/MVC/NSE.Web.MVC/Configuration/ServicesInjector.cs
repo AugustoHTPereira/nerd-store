@@ -7,6 +7,7 @@ using NSE.Web.MVC.Extensions;
 using NSE.Web.MVC.Extensions.Middlewares;
 using NSE.Web.MVC.Services;
 using NSE.Web.MVC.Services.Handlers;
+using Polly;
 using System;
 
 namespace NSE.Web.MVC.Configuration
@@ -18,22 +19,21 @@ namespace NSE.Web.MVC.Configuration
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            #region HttpClient for services
+            #region Http services
 
             services.AddTransient<HttpAuthorizeDelegatingHandler>();
 
             var apiSection = configuration.GetSection("API").Get<APISection>();
             services.AddHttpClient<IAuthService, AuthService>("AuthService", x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
-            //services.AddHttpClient<ICatalogService, CatalogService>("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
-            //    .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>();
 
-            #endregion
-
-            #region Refit services
+            #region Refit
 
             services.AddHttpClient("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
                 .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>()
-                .AddTypedClient(Refit.RestService.For<ICatalogService>);
+                .AddTypedClient(Refit.RestService.For<ICatalogService>)
+                .AddTransientHttpErrorPolicy(x => x.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1)));
+
+            #endregion
 
             #endregion
 
