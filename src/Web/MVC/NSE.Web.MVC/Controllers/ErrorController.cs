@@ -17,7 +17,6 @@ namespace NSE.Web.MVC.Controllers
             var error = new ErrorViewModel
             {
                 Message = exception,
-                Code = int.Parse(code),
             };
 
             switch (code)
@@ -36,6 +35,9 @@ namespace NSE.Web.MVC.Controllers
 
                 case "400":
                     return View("BadRequest", error);
+
+                case "unavailable-service":
+                    return View("Unavailable");
 
                 default:
                     break;

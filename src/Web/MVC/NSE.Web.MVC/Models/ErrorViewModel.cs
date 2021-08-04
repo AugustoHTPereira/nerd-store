@@ -10,7 +10,5 @@ namespace NSE.Web.MVC.Models
 
         public string Message { get; set; }
         public Exception Exception { get; set; }
-        public int Code { get; set; }
-        public bool ShowCode => Code != 0;
     }
 }

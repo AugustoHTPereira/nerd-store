@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Polly.CircuitBreaker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace NSE.Web.MVC.Extensions.Middlewares
                 }
 
                 context.Response.Redirect($"/Error/{(int)ex.StatusCode}");
+            }
+            catch (BrokenCircuitException)
+            {
+                context.Response.Redirect("/Error/unavailable-service");
             }
             catch (Exception)
             {

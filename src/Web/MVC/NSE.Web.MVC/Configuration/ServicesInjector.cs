@@ -24,14 +24,18 @@ namespace NSE.Web.MVC.Configuration
             services.AddTransient<HttpAuthorizeDelegatingHandler>();
 
             var apiSection = configuration.GetSection("API").Get<APISection>();
-            services.AddHttpClient<IAuthService, AuthService>("AuthService", x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
+            services.AddHttpClient<IAuthService, AuthService>("AuthService", x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress))
+                .AddTransientHttpErrorPolicy(x => x.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1)))
+                .AddTransientHttpErrorPolicy(x => x.CircuitBreakerAsync(5, TimeSpan.FromSeconds(90)));
 
             #region Refit
 
             services.AddHttpClient("CatalogService", x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress))
                 .AddHttpMessageHandler<HttpAuthorizeDelegatingHandler>()
                 .AddTypedClient(Refit.RestService.For<ICatalogService>)
-                .AddTransientHttpErrorPolicy(x => x.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1)));
+                .AddTransientHttpErrorPolicy(x => x.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1)))
+                .AddTransientHttpErrorPolicy(x => x.CircuitBreakerAsync(5, TimeSpan.FromSeconds(90)));
+
 
             #endregion
 

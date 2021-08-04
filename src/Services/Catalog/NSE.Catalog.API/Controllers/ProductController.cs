@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NSE.Catalog.API.Models;
 using NSE.Core.Controller.Base;
-using NSE.Core.Services.Identity;
 using System;
 using System.Threading.Tasks;
 

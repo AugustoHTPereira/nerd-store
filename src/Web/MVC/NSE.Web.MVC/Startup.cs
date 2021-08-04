@@ -31,16 +31,9 @@ namespace NSE.Web.MVC
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (!env.IsDevelopment())
-            {
-                app.UseExceptionMiddleware();
-                app.UseExceptionHandler("/Error/500");
-                app.UseHsts();
-            }
-            else
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseExceptionMiddleware();
+            //app.UseExceptionHandler("/Error/500");
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

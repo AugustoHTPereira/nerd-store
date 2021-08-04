@@ -50,6 +50,7 @@ namespace NSE.Auth.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginRequest request)
         {
+            throw new Exception("12412412 Teste!!");
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState.Values);
 
             var result = await _sigInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
