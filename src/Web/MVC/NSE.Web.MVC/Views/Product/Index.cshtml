@@ -1,11 +1,137 @@
-﻿@model IEnumerable<ProductViewModel>
+﻿@{
+    ViewBag.Title = "Início";
+}
 
-<h1>List of products</h1>
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a>
-        </li>
+@model ProductViewModel[]
+
+<style>
+    .product-cards {
+        margin: 45px 0;
     }
-</ul>
+
+        .product-cards a {
+            display: block;
+            text-decoration: none;
+        }
+
+    .product-principal {
+        position: relative;
+        width: 100%;
+        border-radius: 22px;
+        min-height: 420px;
+        background-position: center;
+        background-size: cover;
+        color: white;
+        overflow: hidden;
+    }
+
+
+        .product-principal:hover {
+            color: white;
+        }
+
+        .product-principal img {
+            transition-duration: 200ms;
+            position: absolute;
+            left: 0;
+            object-fit: cover;
+            min-height: 420px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-principal:hover img {
+            filter: contrast(1.3) brightness(1.4);
+            color: white;
+        }
+
+        .product-principal .text-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 65px;
+            height: 100%;
+        }
+
+            .product-principal .text-content h1 {
+                font-weight: bold;
+                font-size: 3rem;
+                text-shadow: 0 4px 25px black;
+            }
+
+            .product-principal .text-content .attributes .price {
+                color: #ccc;
+                font-weight: 600;
+                font-size: 1rem;
+            }
+
+    .product {
+        margin: 45px 0;
+        transition: 200ms ease-out;
+        border-radius: 12px;
+        padding: 22px;
+    }
+
+        .product:hover {
+            box-shadow: 0 4px 125px rgba(0, 0, 0, 25%);
+        }
+
+        .product img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 22px;
+        }
+
+        .product .text-content {
+            margin-top: 25px;
+        }
+
+            .product .text-content p {
+                font-weight: 600;
+                color: gray;
+                margin-top: 8px;
+                margin-bottom: 0px;
+            }
+
+            .product .text-content h2 {
+                font-weight: 400;
+                color: black;
+                margin: 0;
+                line-height: 100%;
+                font-size: 1.8rem;
+            }
+</style>
+
+<div class="product-cards row">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        if (i % 5 == 0 || i == 0)
+        {
+            <a asp-controller="Product" asp-action="Detail" class="product-principal col-md-12" asp-route-id="@Model[i].Id">
+                <img src="@Model[i].PictureUrl" alt="Picture @Model[i].Name" />
+
+                <div class="text-content">
+                    <h1>
+                        @Model[i].Name
+                    </h1>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Product" asp-action="Detail" class="product col-md-3" asp-route-id="@Model[i].Id">
+                <img src="@Model[i].PictureUrl" alt="Picture @Model[i].Name" />
+
+                <div class="text-content">
+                    <h2>
+                        @Model[i].Name
+                    </h2>
+                    <p>
+                        @Model[i].Price.ToString("C")
+                    </p>
+                </div>
+            </a>
+        }
+    }
+</div>

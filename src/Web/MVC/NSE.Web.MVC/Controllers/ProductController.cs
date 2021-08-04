@@ -19,7 +19,7 @@ namespace NSE.Web.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await CatalogService.SelectProductsAsync();
-            return View(products);
+            return View(products.ToArray());
         }
 
         [HttpGet]

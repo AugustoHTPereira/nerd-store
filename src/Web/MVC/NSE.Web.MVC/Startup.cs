@@ -33,11 +33,15 @@ namespace NSE.Web.MVC
         {
             if (!env.IsDevelopment())
             {
+                app.UseExceptionMiddleware();
                 app.UseExceptionHandler("/Error/500");
                 app.UseHsts();
             }
+            else
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-            app.UseExceptionMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

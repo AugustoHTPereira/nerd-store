@@ -66,7 +66,7 @@ namespace NSE.Web.MVC.Controllers
             if (!string.IsNullOrEmpty(returnTo))
                 return LocalRedirect(returnTo);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Product");
         }
 
         [HttpGet]
