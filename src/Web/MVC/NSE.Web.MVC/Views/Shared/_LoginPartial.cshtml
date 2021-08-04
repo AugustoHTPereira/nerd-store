@@ -1,9 +1,9 @@
 ﻿@inject IUser User
 
-<ul class="navbar-nav">
+<ul class="navbar-nav flex-row align-items-center">
 
     <li class="nav-item" style="display: flex; align-items: center; margin-right: 15px;">
-        <a style="width: 38px; height: 38px; border: 1px solid #ddd; background-color: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative;">
+        <a href="#" style="width: 38px; height: 38px; border: 1px solid #ddd; background-color: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative;">
             <span style="color: gray; font-size: 14px; font-weight: 500; line-height: 100%;">Cart</span>
 
             <span style="position: absolute; right: -5px; top: -5px; background-color: #3a5595; font-size: 11px; font-weight: 600; color: white; width: 16px; height: 16px; border-radius: 3px; display: flex; justify-content: center; align-items: center;">0</span>
@@ -20,17 +20,16 @@
         <div style="background-color: gray; height: 16px; width: 1px;"></div>
         <a style="margin-left: 7px; color: gray;" asp-action="Register" asp-controller="Identity">Register</a>
     </div>
-</li>
- }
-else
-{
+</li> }
+            else
+            {
 
 <li class="nav-item">
-    <a class="nav-link" asp-action="Index" asp-controller="Account">
-        Account
+    <a class="nav-link-gravatar" asp-action="Index" asp-controller="Account">
+        <img src="@User.GetAvatar()" alt="Avatar" style=" border-radius: 50%;" />
     </a>
 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-left: 5px; font-weight: 600;">
                     <a class="nav-link" asp-action="Logout" asp-controller="Identity">Logout</a>
                 </li>}
 
