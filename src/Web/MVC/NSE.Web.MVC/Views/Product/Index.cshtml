@@ -2,7 +2,7 @@
     ViewBag.Title = "Início";
 }
 
-@model ProductViewModel[]
+@model NSE.Web.MVC.Models.Product.ProductViewModel[]
 
 <style>
     .product-cards {
@@ -128,7 +128,7 @@
                         @Model[i].Name
                     </h2>
                     <p>
-                        @Model[i].Price.ToString("C")
+                        @Model[i].Price.ToCurrency()
                     </p>
                 </div>
             </a>
