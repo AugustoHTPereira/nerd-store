@@ -82,7 +82,19 @@
             <div class="attributes">
                 <div class="price">
                     <h3>@Model.Price.ToString("C")</h3>
-                    <button class="btn btn-primary btn-lg">COMPRAR</button>
+                </div>
+
+                <div class="row my-4">
+                    <div class="col-md-8">
+                        <select class="form-control form-control-lg">
+                            <option value="01">01 unidade</option>
+                            <option value="02">02 unidades</option>
+                            <option value="03">03 unidades</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block btn-lg">COMPRAR</button>
+                    </div>
                 </div>
 
                 <div>
