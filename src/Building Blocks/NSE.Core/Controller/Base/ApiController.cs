@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace NSE.Auth.API.Controllers.Base
+namespace NSE.Core.Controller.Base
 {
     [ApiController]
     public abstract class ApiController : ControllerBase

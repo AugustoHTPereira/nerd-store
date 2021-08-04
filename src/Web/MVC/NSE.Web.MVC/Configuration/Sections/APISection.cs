@@ -8,5 +8,6 @@ namespace NSE.Web.MVC.Configuration.Sections
     public class APISection
     {
         public string AuthBaseAddress { get; set; }
+        public string CatalogBaseAddress { get; set; }
     }
 }

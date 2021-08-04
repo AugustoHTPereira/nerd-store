@@ -21,6 +21,7 @@ namespace NSE.Web.MVC.Configuration
 
             var apiSection = configuration.GetSection("API").Get<APISection>();
             services.AddHttpClient<IAuthService, AuthService>(x => x.BaseAddress = new Uri(apiSection.AuthBaseAddress));
+            services.AddHttpClient<ICatalogService, CatalogService>(x => x.BaseAddress = new Uri(apiSection.CatalogBaseAddress));
 
             #endregion
 

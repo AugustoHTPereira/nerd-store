@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Catalog.API.Models;
+using NSE.Core.Controller.Base;
 using NSE.Core.Services.Identity;
 using System;
 using System.Threading.Tasks;
 
 namespace NSE.Catalog.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    [Route("api/products")]
+    public class ProductController : ApiController
     {
         private readonly IProductRepository ProductRepository;
 
@@ -21,14 +21,16 @@ namespace NSE.Catalog.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await ProductRepository.SelectAsync());
+            var products = await ProductRepository.SelectAsync();
+            return ApiResponse("Success", products);
         }
 
-        [ClaimAuthorize("catalog", "read")]
+        //[ClaimAuthorize("catalog", "read")]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            return Ok(await ProductRepository.SelectAsync(id));
+            var product = await ProductRepository.SelectAsync(id);
+            return ApiResponse("Success", product);
         }
     }
 }
